@@ -1,0 +1,14 @@
+# Bazel
+bazel-*
+MODULE.bazel.lock
+
+# CLion
+.clwb/
+.idea/
+.yml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/

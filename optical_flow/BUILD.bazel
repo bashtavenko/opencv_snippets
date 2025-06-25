@@ -1,0 +1,29 @@
+cc_binary(
+    name = "lk_main",
+    srcs = ["lucas_kanade_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+    ],
+)
+
+cc_binary(
+    name = "farneback_main",
+    srcs = ["farneback_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+    ],
+)

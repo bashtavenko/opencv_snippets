@@ -1,0 +1,36 @@
+cc_library(
+    name = "reconstruction",
+    srcs = ["reconstruction.cc"],
+    hdrs = ["reconstruction.h"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/status",
+        "@absl//absl/status:statusor",
+        "@absl//absl/strings",
+    ],
+)
+
+cc_test(
+    name = "reconstruction_test",
+    srcs = ["reconstruction_test.cc"],
+    deps = [
+        ":reconstruction",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_binary(
+    name = "run_main",
+    srcs = ["run_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        ":reconstruction",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+        "@status_macros",
+    ],
+)

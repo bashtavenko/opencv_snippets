@@ -1,0 +1,16 @@
+cc_binary(
+    name = "stitcher_main",
+    srcs = ["stitcher_main.cc"],
+    data = ["//stitcher/testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/status:statusor",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+        "@status_macros",
+    ],
+)

@@ -1,0 +1,24 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_test(
+    name = "convolution_test",
+    srcs = ["convolution_test.cc"],
+    deps = [
+        "@absl//absl/status",  # status is required for strings?
+        "@absl//absl/strings",
+        "@glog",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_library(
+    name = "filters",
+    srcs = ["filters.cc"],
+    hdrs = ["filters.h"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+    ],
+)

@@ -1,0 +1,13 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "transformations",
+    srcs = ["transformations.cc"],
+    hdrs = ["transformations.h"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+    ],
+)

@@ -1,0 +1,15 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "tracking",
+    srcs = [
+        "kalman.cc",
+    ],
+    hdrs = ["tracking.h"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+    ],
+)

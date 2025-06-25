@@ -1,0 +1,86 @@
+load("@rules_cc//cc:defs.bzl", "cc_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "intrinsic",
+    srcs = ["intrinsic.cc"],
+    hdrs = ["intrinsic.h"],
+    deps = [
+        "//:opencv",
+        "//util",
+        "@absl//absl/algorithm:container",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+    ],
+)
+
+cc_library(
+    name = "birdeye",
+    srcs = ["birdeye.cc"],
+    hdrs = ["birdeye.h"],
+    deps = [
+        "//:opencv",
+        "//util",
+        "@absl//absl/algorithm:container",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+    ],
+)
+
+cc_library(
+    name = "calibration",
+    srcs = ["calibration.cc"],
+    hdrs = ["calibration.h"],
+    deps = [
+        ":calibration_cc_proto",
+        ":util",
+        "//:opencv",
+        "//util",
+        "@absl//absl/status:statusor",
+        "@absl//absl/strings",
+        "@glog",
+        "@protobuf",
+    ],
+)
+
+cc_test(
+    name = "calibration_test",
+    srcs = ["calibration_test.cc"],
+    deps = [
+        ":calibration",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+        "@googletest//:gtest_main",
+    ],
+)
+
+proto_library(
+    name = "calibration_proto",
+    srcs = [
+        "calibration_config.proto",
+        "calibration_data.proto",
+    ],
+)
+
+cc_proto_library(
+    name = "calibration_cc_proto",
+    deps = [
+        ":calibration_proto",
+    ],
+)
+
+cc_library(
+    name = "util",
+    srcs = ["calibration_conversions.cc"],
+    hdrs = ["calibration_conversions.h"],
+    deps = [
+        ":calibration_cc_proto",
+        "//:opencv",
+        "@absl//absl/status:statusor",
+    ],
+)

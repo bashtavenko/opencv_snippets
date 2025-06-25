@@ -1,0 +1,55 @@
+cc_binary(
+    name = "noise_reduction_main",
+    srcs = ["noise_reduction_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+    ],
+)
+
+cc_binary(
+    name = "canny_main",
+    srcs = ["canny_main.cc"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+    ],
+)
+
+cc_binary(
+    name = "whitening_main",
+    srcs = ["whitening_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@glog",
+    ],
+)
+
+cc_binary(
+    name = "histogram_equalization",
+    srcs = ["histogram_equalization_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@glog",
+    ],
+)

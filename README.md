@@ -1,2 +1,1 @@
-# opencv_snippets
-OpenCV snippets and useful patterns
+# OpenCV snippets and useful patterns

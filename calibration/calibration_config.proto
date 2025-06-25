@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package hello.calibration;
+
+import "calibration/calibration_data.proto";
+
+// Result of camera calibration
+message CalibrationConfig {
+  // These are pixel coordinates that were used during calibration.
+  repeated ImagePoint image_points = 1;
+  // These are world objects that were corresponding to each of those image
+  // points.
+  repeated ObjectPoint object_points = 2;
+  // Intrinsic camera matrix that was created during calibration
+  CameraMatrix camera_matrix = 3;
+  // Distortion parameters that were obtain during calibration
+  DistortionParameters distortion_parameters = 4;
+  // Homography projection that was calculated as part of extrinsic parameters.
+  HomographyMatrix homography_matrix = 5;
+  // Reprojection error is the sum of squared Euclidean distances between
+  // object points and projected (targeted) points * number of points.
+  float reprojection_error = 6;
+  // Complete camera pose (6D) consists of 3 angles in rvec plus 3 translations
+  // t1, t2, t3 in homography_matrix.
+  RotationVector rvec = 7;
+}
