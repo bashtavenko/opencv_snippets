@@ -1,0 +1,25 @@
+cc_library(
+    name = "round_corners_detector",
+    srcs = ["round_corners_detector.cc"],
+    hdrs = ["round_corners_detector.h"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/status:statusor",
+    ],
+)
+
+cc_binary(
+    name = "interactive_main",
+    srcs = ["interactive_main.cc"],
+    data = ["testdata"],
+    deps = [
+        ":round_corners_detector",
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@gflags",
+        "@glog",
+        "@status_macros",
+    ],
+)
