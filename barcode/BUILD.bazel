@@ -1,0 +1,14 @@
+cc_binary(
+    name = "barcode_detector_main",
+    srcs = ["barcode_detector_main.cc"],
+    data = ["testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@gflags",
+        "@glog",
+        "@status_macros",
+    ],
+)

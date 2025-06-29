@@ -17,7 +17,7 @@ buildifier(
 cmake(
     name = "opencv",
     cache_entries = {
-        "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,ml,stitching",
+        "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
         "WITH_FFMPEG": "ON",
         "WITH_GTK": "OFF",
         "WITH_QT": "ON",
