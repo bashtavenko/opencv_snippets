@@ -9,6 +9,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/opencv.hpp"
 #include "status_macros.h"
+#include "absl/strings/str_format.h"
 
 ABSL_FLAG(std::string, input_image_path,
           "round_corners/testdata/round_corners.jpg", "Input image");
@@ -27,6 +28,7 @@ absl::Status Run() {
   }
 
   // Preprocessing
+  int64 start = cv::getTickCount();
   cv::Mat gray;
   cv::Mat blurred;
   cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
@@ -66,8 +68,9 @@ absl::Status Run() {
                    0.02 * cv::arcLength(largest_contour,
                                         /*closed=*/true),
                    /*closed=*/true);
-  LOG(INFO) << corners[0] << " " << corners[1] << " " << corners[2] << " "
-            << corners[3];
+  int64 end = cv::getTickCount();
+  const double time_ms = (end - start) / cv::getTickFrequency() * 1000.0;
+  LOG(INFO) << absl::StreamFormat("Latency:  %.0f ms", time_ms);
 
   // Draw points
   const cv::Scalar kRED(0, 0, 255);
