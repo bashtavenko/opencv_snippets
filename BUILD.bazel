@@ -16,12 +16,21 @@ buildifier(
 # "-DWITH_FFMPEG=OFF" is for https://github.com/opencv/opencv/issues/22748
 cmake(
     name = "opencv",
-    cache_entries = {
-        "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,ml,stitching",
-        "WITH_FFMPEG": "ON",
-        "WITH_GTK": "OFF",
-        "WITH_QT": "ON",
-    },
+    cache_entries = select({
+        "@platforms//os:linux": {
+            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,ml,stitching",
+            "WITH_FFMPEG": "ON",
+            "WITH_GTK": "OFF",
+            "WITH_QT": "ON",
+        },
+        "@platforms//os:macos": {
+            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,ml,stitching",
+            "WITH_FFMPEG": "ON",
+            "WITH_GTK": "OFF",
+            "WITH_QT": "OFF",
+            "WITH_COCOA": "ON",
+        },
+    }),
     lib_source = "@opencv//:all",
     out_include_dir = "include/opencv4",
     out_shared_libs = select({
