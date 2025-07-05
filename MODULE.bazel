@@ -30,6 +30,7 @@ http_archive(
 
 http_archive(
     name = "status_macros",
+    integrity = "sha256-9OiYPUNyyQC4mBP5xMP1Ua/v4Vv3CU/v7eZwPv+kix4=",
     strip_prefix = "status_macros-1.0.1",
     urls = ["https://github.com/bashtavenko/status_macros/archive/refs/tags/v1.0.1.tar.gz"],
 )
