@@ -23,7 +23,7 @@ filegroup(
 http_archive(
     name = "opencv",
     build_file_content = all_content,
-    #    sha256 = "cbf47ecc336d2bff36b0dcd7d6c179a9bb59e805136af6b9670ca944aef889bd",
+    sha256 = "9a7c11f924eff5f8d8070e297b322ee68b9227e003fd600d4b8122198091665f",
     strip_prefix = "opencv-4.11.0",
     urls = ["https://github.com/opencv/opencv/archive/refs/tags/4.11.0.tar.gz"],
 )
