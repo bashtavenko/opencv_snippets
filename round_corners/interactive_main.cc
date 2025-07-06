@@ -9,11 +9,19 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/opencv.hpp"
 #include "status_macros.h"
+#include "absl/strings/str_format.h"
 
 ABSL_FLAG(std::string, input_image_path,
           "round_corners/testdata/round_corners.jpg", "Input image");
 
 absl::Status Run() {
+
+  auto log_latency = [&](int64 start, absl::string_view label) {
+    const int64 end = cv::getTickCount();
+    const double time_ms = (end - start) / cv::getTickFrequency() * 1000.0;
+    LOG(INFO) << absl::StreamFormat("%s:  %.0f ms", label, time_ms);
+  };
+
   constexpr absl::string_view kWindow = "Input";
   constexpr absl::string_view kContours = "Contours";
   cv::namedWindow(kWindow.data(), cv::WINDOW_FREERATIO);
@@ -27,25 +35,30 @@ absl::Status Run() {
   }
 
   // Preprocessing
+  int64 start = cv::getTickCount();
   cv::Mat gray;
   cv::Mat blurred;
   cv::cvtColor(img, gray, cv::COLOR_BGR2GRAY);
   cv::GaussianBlur(gray, blurred, cv::Size(5, 5), 0);  // Noise suppression
+  log_latency(start, "Smoothing:");
 
   // Thresholding
   cv::Mat thresholded;
   cv::adaptiveThreshold(blurred, thresholded, 255,
                         cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY_INV,
                         11, 2);
+  log_latency(start, "Thresholding:");
 
   // Morphology
   cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
   cv::dilate(thresholded, thresholded, kernel);
+  log_latency(start, "Dilate:");
 
   // Find the largest contours
   std::vector<std::vector<cv::Point>> contours;
   cv::findContours(thresholded, contours, cv::RETR_EXTERNAL,
                    cv::CHAIN_APPROX_SIMPLE);
+  log_latency(start, "Contours:");
   double max_area = 0;
   std::vector<cv::Point> largest_contour;
   for (size_t i = 0; i < contours.size(); ++i) {
@@ -66,8 +79,7 @@ absl::Status Run() {
                    0.02 * cv::arcLength(largest_contour,
                                         /*closed=*/true),
                    /*closed=*/true);
-  LOG(INFO) << corners[0] << " " << corners[1] << " " << corners[2] << " "
-            << corners[3];
+  log_latency(start, "Total latency");
 
   // Draw points
   const cv::Scalar kRED(0, 0, 255);
