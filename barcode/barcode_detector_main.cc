@@ -7,12 +7,12 @@
 #include "glog/logging.h"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/objdetect/barcode.hpp"
 #include "opencv2/opencv.hpp"
 #include "status_macros.h"
-#include "opencv2/objdetect/barcode.hpp"
 
-ABSL_FLAG(std::string, input_image_path,
-          "barcode/testdata/some_barcodes.jpg", "Input image");
+ABSL_FLAG(std::string, input_image_path, "barcode/testdata/linear_barcode.jpg",
+          "Input image");
 
 cv::Mat Preprocess(const cv::Mat& input) {
   cv::Mat gray;
@@ -26,19 +26,18 @@ cv::Mat Preprocess(const cv::Mat& input) {
   }
 
   // Option 1: Adaptive threshold
-  cv::adaptiveThreshold(gray, processed, 255,
-                       cv::ADAPTIVE_THRESH_GAUSSIAN_C,
-                       cv::THRESH_BINARY, 11, 2);
+  cv::adaptiveThreshold(gray, processed, 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C,
+                        cv::THRESH_BINARY, 11, 2);
 
   // Option 2: OTSU threshold
-  // cv::threshold(gray, processed, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+  // cv::threshold(gray, processed, 0, 255, cv::THRESH_BINARY |
+  // cv::THRESH_OTSU);
 
   // Option 3: Contrast enhancement
   // cv::equalizeHist(gray, processed);
 
   return processed;
 }
-
 
 absl::Status Run() {
   constexpr absl::string_view kWindow = "Input";
@@ -52,15 +51,13 @@ absl::Status Run() {
         absl::StrCat("Failed to load ", absl::GetFlag(FLAGS_input_image_path)));
   }
 
-  cv::Mat gray = Preprocess(img);
   cv::barcode::BarcodeDetector detector;
   std::vector<cv::Point2f> corners;
-  if (!detector.detect(gray, corners)) {
+  if (!detector.detect(img, corners)) {
     return absl::InternalError("Failed to detect barcodes");
   }
 
   LOG(INFO) << corners.size() << " corners detected";
-
 
   return absl::OkStatus();
 }

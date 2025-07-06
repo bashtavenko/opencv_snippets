@@ -18,13 +18,13 @@ cmake(
     name = "opencv",
     cache_entries = select({
         "@platforms//os:linux": {
-            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,ml,stitching",
+            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
             "WITH_FFMPEG": "ON",
             "WITH_GTK": "OFF",
             "WITH_QT": "ON",
         },
         "@platforms//os:macos": {
-            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,ml,stitching",
+            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
             "WITH_FFMPEG": "ON",
             "WITH_GTK": "OFF",
             "WITH_QT": "OFF",
@@ -46,6 +46,7 @@ cmake(
             "libopencv_video.so.411",
             "libopencv_videoio.so.411",
             "libopencv_stitching.so.411",
+            "libopencv_objdetect.so.411",
         ],
         "@platforms//os:macos": [
             "libopencv_ml.411.dylib",
@@ -59,6 +60,7 @@ cmake(
             "libopencv_video.411.dylib",
             "libopencv_videoio.411.dylib",
             "libopencv_stitching.411.dylib",
+            "libopencv_objdetect.411.dylib",
         ],
         "//conditions:default": [],
     }),
