@@ -3,11 +3,11 @@ bazel_dep(name = "buildifier_prebuilt", version = "7.3.1", dev_dependency = True
 bazel_dep(name = "rules_foreign_cc", version = "0.15.0")
 bazel_dep(name = "rules_cc", version = "0.1.2")
 bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "protobuf", version = "32.0-rc1")
 bazel_dep(name = "googletest", version = "1.17.0")
 bazel_dep(name = "abseil-cpp", version = "20250512.1", repo_name = "absl")
 bazel_dep(name = "gflags", version = "2.2.2")
 bazel_dep(name = "glog", version = "0.7.1")
-bazel_dep(name = "protobuf", version = "31.1")
 bazel_dep(name = "platforms", version = "1.0.0")
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -33,4 +33,29 @@ http_archive(
     integrity = "sha256-9OiYPUNyyQC4mBP5xMP1Ua/v4Vv3CU/v7eZwPv+kix4=",
     strip_prefix = "status_macros-1.0.1",
     urls = ["https://github.com/bashtavenko/status_macros/archive/refs/tags/v1.0.1.tar.gz"],
+)
+
+
+# Register C++ toolchains
+bazel_dep(name = "toolchains_llvm", version = "1.0.0")
+
+# Configure LLVM for both platforms
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+
+# Linux toolchain (default)
+# Can be set to specific version
+# llvm_version = "17.0.6",
+llvm.toolchain(
+    name = "llvm_toolchain_linux",
+)
+
+# Windows toolchain (optional)
+llvm.toolchain(
+    name = "llvm_toolchain_windows",
+)
+use_repo(llvm, "llvm_toolchain_linux", "llvm_toolchain_windows")
+
+register_toolchains(
+    "@llvm_toolchain_linux//:all",
+    "@llvm_toolchain_windows//:all",
 )
