@@ -72,6 +72,7 @@ cmake(
 )
 
 # For Windows - use pre-built libraries
+# https://github.com/bazel-contrib/rules_foreign_cc/issues/1437
 cc_library(
     name = "opencv_windows_release",
     srcs = glob([
@@ -146,8 +147,8 @@ cc_binary(
         "//histograms",
         "//keypoints",
         "//misc",
-#        "//ml:decision_trees",
-#        "//ml:kmeans",
+        "//ml:decision_trees",
+        "//ml:kmeans",
         "//tracking",
         "//transformations",
         "@absl//absl/strings",

@@ -27,7 +27,7 @@ absl::Status Run() {
     }
     for (const auto& entry : std::filesystem::directory_iterator(dir)) {
       if (entry.is_regular_file() && entry.path().extension() == ".jpg") {
-        const cv::Mat img = cv::imread(entry.path());
+        const cv::Mat img = cv::imread(entry.path().string());
         if (!img.empty()) {
           images.push_back(img);
         }

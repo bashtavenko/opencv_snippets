@@ -18,7 +18,3 @@ build:windows --action_env=BAZEL_LLVM="C:/Program Files/LLVM"
 
 # Auto-detect platform and apply config
 build:auto --enable_platform_specific_config
-
-# Make windows the default when on Windows
-build --config=windows
-test --config=windows

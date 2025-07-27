@@ -58,7 +58,7 @@ function Build-OpenCV {
     # Base CMake arguments
     $CMakeArgs = @(
         "-DCMAKE_BUILD_TYPE=$BuildType"
-        "-DBUILD_LIST=calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,aruco"
+        "-DBUILD_LIST=calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,aruco,ml,stitching"
         "-DOPENCV_EXTRA_MODULES_PATH=`"$BuildDir\$ContribDir\modules`""
         "-DWITH_FFMPEG=ON"
         "-DWITH_QT=OFF"
