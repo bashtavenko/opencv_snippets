@@ -19,9 +19,9 @@ int main(int argc, char** argv) {
 
   // absl::Status status = hello::misc::ShowPicture();
   // absl::Status status = hello::misc::ShowVideo();
-  // absl::Status status = hello::misc::ShowPictureCanny();
+   absl::Status status = hello::misc::ShowPictureCanny();
 
-  absl::Status status = hello::misc::ShowVideoCanny();
+  // absl::Status status = hello::misc::ShowVideoCanny();
   // absl::Status status = hello::convolution::AdaptiveThreshold();
   //  absl::Status status = hello::transformations::PerspectiveTransform();
   // absl::Status status = hello::fft::FastConv();

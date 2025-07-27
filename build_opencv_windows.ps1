@@ -61,7 +61,7 @@ function Build-OpenCV {
         "-DBUILD_LIST=calib3d,core,features2d,highgui,imgcodecs,imgproc,video,videoio,aruco,ml,stitching"
         "-DOPENCV_EXTRA_MODULES_PATH=`"$BuildDir\$ContribDir\modules`""
         "-DWITH_FFMPEG=ON"
-        "-DWITH_QT=OFF"
+        "-DWITH_QT=ON"
         "-DWITH_GTK=OFF" 
         "-DBUILD_SHARED_LIBS=ON"
         "-DCMAKE_INSTALL_PREFIX=`"$InstallPath`""
