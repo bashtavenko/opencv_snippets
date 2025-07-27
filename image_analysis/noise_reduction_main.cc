@@ -14,7 +14,8 @@ absl::Status RunNoiseReduction() {
   const std::string kOutputWindow2 = "Output blur()";
   const std::string kOutputWindow3 = "Output medianBlur()";
   const std::string kOutputWindow4 = "Output bilateralFilter";
-  const cv::Mat img = cv::imread(std::filesystem::path(kTestData) / "pic2.png");
+  const cv::Mat img = cv::imread(
+      (std::filesystem::path(kTestData) / "pic2.png").string());
   CHECK(!img.empty());
   cv::Mat out;
   cv::GaussianBlur(img, out, cv::Size(5, 5), 3, 3);
@@ -25,7 +26,7 @@ absl::Status RunNoiseReduction() {
   cv::Mat out_4;
   cv::bilateralFilter(img, out_4, /*d=*/15, /*sigmaSpace=*/80,
                       /*sigmaSpace=*/80
-                      );
+      );
   cv::imshow(kInputWindow, img);
   cv::imshow(kOutputWindow, out);
   cv::imshow(kOutputWindow2, out_2);

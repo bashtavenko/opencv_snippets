@@ -8,7 +8,7 @@ using ::std::filesystem::path;
 constexpr absl::string_view kTestDataPath = "testdata";
 
 absl::Status FastConv() {
-  cv::Mat A = cv::imread(path(kTestDataPath) / "pic3.png");
+  cv::Mat A = cv::imread((path(kTestDataPath) / "pic3.png").string());
   if (A.empty()) return absl::InternalError("No image");
 
   cv::Size patchSize(100, 100);

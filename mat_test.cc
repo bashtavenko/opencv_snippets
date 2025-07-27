@@ -23,7 +23,9 @@ TEST(Mat, Works) {
 
   // Read from file
   Mat mat1 =
-      cv::imread(runfiles->Rlocation(path(kTestDataPath) / "starry_night.jpg"));
+      cv::imread(
+          runfiles->Rlocation(
+              (path(kTestDataPath) / "starry_night.jpg").string()));
   ASSERT_FALSE(mat1.empty());
   ASSERT_THAT(mat1.dims, Eq(2));
   ASSERT_THAT(mat1.rows, Eq(600));
@@ -34,7 +36,8 @@ TEST(Mat, Works) {
   ASSERT_THAT(mat.dims, Eq(2));
 
   // Read again
-  Mat mat2 = cv::imread(runfiles->Rlocation(path(kTestDataPath) / "pic3.png"));
+  Mat mat2 = cv::imread(
+      runfiles->Rlocation((path(kTestDataPath) / "pic3.png").string()));
   ASSERT_THAT(mat2.channels(), Eq(3));
   constexpr int x = 16;
   constexpr int y = 32;
@@ -57,5 +60,5 @@ TEST(Mat, Works) {
   Mat b = Mat::ones(Size(3, 2), CV_32F);
   Mat c = a + b;
 }
-}  // namespace
-}  // namespace hello
+} // namespace
+} // namespace hello

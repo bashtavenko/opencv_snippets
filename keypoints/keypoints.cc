@@ -101,11 +101,11 @@ inline void findKeyPointsHomography(std::vector<cv::KeyPoint>& kpts1,
 absl::Status Run(DescriptorType descriptor_type, MatchAlgorithm match_algorithm,
                  absl::string_view image_file_name,
                  absl::string_view scene_file_name) {
-  cv::Mat img1 = cv::imread(path(kTestDataPath) / image_file_name);
+  cv::Mat img1 = cv::imread((path(kTestDataPath) / image_file_name).string());
   if (img1.empty())
     return absl::InternalError(absl::StrCat("No image - ", image_file_name));
 
-  cv::Mat img2 = cv::imread(path(kTestDataPath) / scene_file_name);
+  cv::Mat img2 = cv::imread((path(kTestDataPath) / scene_file_name).string());
   if (img2.empty())
     return absl::InternalError(absl::StrCat("No scene - ", scene_file_name));
 

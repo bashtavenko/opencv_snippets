@@ -1,25 +1,25 @@
 package(default_visibility = ["//visibility:public"])
-
-cc_library(
-    name = "kmeans",
-    srcs = ["kmeans.cc"],
-    hdrs = ["ml.h"],
-    deps = [
-        "//:opencv",
-        "@absl//absl/status",
-        "@absl//absl/strings",
-        "@glog",
-    ],
-)
-
-cc_library(
-    name = "decision_trees",
-    srcs = ["decision_trees.cc"],
-    hdrs = ["ml.h"],
-    deps = [
-        "//:opencv",
-        "@absl//absl/status",
-        "@absl//absl/strings",
-        "@glog",
-    ],
-)
+#
+#cc_library(
+#    name = "kmeans",
+#    srcs = ["kmeans.cc"],
+#    hdrs = ["ml.h"],
+#    deps = [
+#        "//:opencv",
+#        "@absl//absl/status",
+#        "@absl//absl/strings",
+#        "@glog",
+#    ],
+#)
+#
+#cc_library(
+#    name = "decision_trees",
+#    srcs = ["decision_trees.cc"],
+#    hdrs = ["ml.h"],
+#    deps = [
+#        "//:opencv",
+#        "@absl//absl/status",
+#        "@absl//absl/strings",
+#        "@glog",
+#    ],
+#)

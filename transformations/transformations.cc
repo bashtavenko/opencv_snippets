@@ -8,7 +8,7 @@ using ::std::filesystem::path;
 constexpr absl::string_view kTestDataPath = "testdata";
 
 absl::Status AffineTransform() {
-  cv::Mat src = cv::imread(path(kTestDataPath) / "home.jpg");
+  cv::Mat src = cv::imread((path(kTestDataPath) / "home.jpg").string());
   if (src.empty()) return absl::InternalError("No image");
 
   cv::Point2f srcTri[] = {
@@ -52,7 +52,7 @@ absl::Status AffineTransform() {
   return absl::OkStatus();
 }
 absl::Status PerspectiveTransform() {
-  cv::Mat src = cv::imread(path(kTestDataPath) / "home.jpg");
+  cv::Mat src = cv::imread((path(kTestDataPath) / "home.jpg").string());
   if (src.empty()) return absl::InternalError("No image");
 
   cv::Point2f srcQuad[] = {

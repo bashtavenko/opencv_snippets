@@ -31,7 +31,7 @@ absl::Status RunBirdEye() {
   fs["camera_matrix"] >> intrinsic;
   fs["distortion_coefficients"] >> distortion;
 
-  cv::Mat image0 = cv::imread(path(kFile));
+  cv::Mat image0 = cv::imread(std::string(kFile));
   if (image0.empty())
     return absl::InternalError(absl::StrCat("No image - ",
                                             kFile));

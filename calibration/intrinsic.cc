@@ -23,8 +23,9 @@ absl::Status RunInstrinsicCalibration() {
   std::vector<std::string> file_names;
 
   for (const auto& dir_entry : directory_iterator(kDirectory)) {
-    file_names.push_back(dir_entry.path());
+    file_names.push_back((dir_entry.path().string()));
   }
+
   absl::c_sort(file_names);
   int board_n = kBoardW * kBoardH;  // number of corners
   cv::Size board_sz =

@@ -10,7 +10,7 @@ using ::std::filesystem::path;
 constexpr absl::string_view kTestDataPath = "testdata";
 
 absl::Status Compute() {
-  cv::Mat src = cv::imread(path(kTestDataPath) / "lena.jpg");
+  cv::Mat src = cv::imread((path(kTestDataPath) / "lena.jpg").string());
   if (src.empty()) return absl::InternalError("No image");
 
   // Compute the HSV image, and decompose it into separate planes.
@@ -56,7 +56,7 @@ absl::Status Compare() {
       "fruits.jpg"};
 
   std::vector<cv::Mat> src(5);
-  cv::Mat tmp = cv::imread(path(kTestDataPath) / kImages[0]);
+  cv::Mat tmp = cv::imread((path(kTestDataPath) / kImages[0]).string());
   if (tmp.empty()) return absl::InternalError("No image");
 
   // Parse the first image into two image halves divided halfway on y
@@ -90,7 +90,7 @@ absl::Status Compare() {
   // Load the other three images
   //
   for (i = 2; i < 5; ++i) {
-    src[i] = cv::imread(path(kTestDataPath) / kImages[i - 1]);
+    src[i] = cv::imread((path(kTestDataPath) / kImages[i - 1]).string());
     if (src[i].empty()) return absl::InternalError("No image");
   }
 
@@ -194,10 +194,10 @@ absl::Status Compare() {
 absl::Status Match() {
   constexpr absl::string_view kImages[] = {"adrian.jpg", "BlueCup.jpg"};
 
-  cv::Mat src = cv::imread(path(kTestDataPath) / kImages[0]);
+  cv::Mat src = cv::imread((path(kTestDataPath) / kImages[0]).string());
   if (src.empty()) return absl::InternalError("No source image");
 
-  cv::Mat templ = cv::imread(path(kTestDataPath) / kImages[1]);
+  cv::Mat templ = cv::imread((path(kTestDataPath) / kImages[1]).string());
   if (templ.empty()) return absl::InternalError("No template image");
 
   // Do the matching of the template with the image

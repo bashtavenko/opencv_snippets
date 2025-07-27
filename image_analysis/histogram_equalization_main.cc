@@ -4,6 +4,7 @@
 #include "absl/strings/string_view.h"
 #include "glog/logging.h"
 #include "opencv2/opencv.hpp"
+#include <cstdint>
 
 ABSL_FLAG(std::string, input_path, "testdata/home.jpg", "Input image path");
 

@@ -12,7 +12,7 @@ using ::std::filesystem::path;
 constexpr absl::string_view kTestDataPath = "testdata";
 
 absl::Status ShowPicture() {
-  cv::Mat img = cv::imread(path(kTestDataPath) / "starry_night.jpg");
+  cv::Mat img = cv::imread((path(kTestDataPath) / "starry_night.jpg").string());
   if (img.empty()) return absl::InternalError("No image");
   cv::namedWindow("Example 2-1", cv::WINDOW_AUTOSIZE);
   cv::imshow("Example 2-1", img);
@@ -24,7 +24,7 @@ absl::Status ShowPicture() {
 absl::Status ShowVideo() {
   cv::namedWindow("Example 2-3", cv::WINDOW_AUTOSIZE);
   cv::VideoCapture capture;
-  const std::string file_path = path(kTestDataPath) / "Megamind.avi";
+  const std::string file_path = (path(kTestDataPath) / "Megamind.avi").string();
   capture.open(file_path);
   if (!capture.isOpened()) {
     return absl::InternalError(
@@ -57,9 +57,9 @@ void OnTrackbarSlide(int, void*) {
 absl::Status ShowVideoWithTaskBar() {
   int slider_position = 0;
   run = 1;
-  dont_set = 0;  // start out in single step mode
+  dont_set = 0; // start out in single step mode
   cv::namedWindow("Example 2-4", cv::WINDOW_AUTOSIZE);
-  cap.open(path(kTestDataPath) / "Megamind.avi");
+  cap.open((path(kTestDataPath) / "Megamind.avi").string());
   int frames = (int)cap.get(cv::CAP_PROP_FRAME_COUNT);
   int width = (int)cap.get(cv::CAP_PROP_FRAME_WIDTH);
   int height = (int)cap.get(cv::CAP_PROP_FRAME_HEIGHT);
@@ -82,12 +82,14 @@ absl::Status ShowVideoWithTaskBar() {
       run -= 1;
     }
     char c = (char)cv::waitKey(10);
-    if (c == 's') {  // single step
+    if (c == 's') {
+      // single step
       run = 1;
       LOG(INFO) << "Single step, run = " << run;
     }
 
-    if (c == 'r') {  // run mode
+    if (c == 'r') {
+      // run mode
       run = -1;
       LOG(INFO) << "RunInstrinsicCalibration mode, run = " << run;
     }
@@ -96,9 +98,9 @@ absl::Status ShowVideoWithTaskBar() {
   }
   return absl::OkStatus();
 }
-}  // namespace global
+} // namespace global
 absl::Status ShowPictureBlurring() {
-  cv::Mat img = cv::imread(path(kTestDataPath) / "starry_night.jpg");
+  cv::Mat img = cv::imread((path(kTestDataPath) / "starry_night.jpg").string());
   if (img.empty()) return absl::InternalError("No image");
   cv::namedWindow("Example 2-5-in", cv::WINDOW_AUTOSIZE);
   cv::namedWindow("Example 2-5-out", cv::WINDOW_AUTOSIZE);
@@ -110,8 +112,9 @@ absl::Status ShowPictureBlurring() {
   cv::waitKey(0);
   return absl::OkStatus();
 }
+
 absl::Status ShowPicturePyrDown() {
-  cv::Mat img = cv::imread(path(kTestDataPath) / "starry_night.jpg");
+  cv::Mat img = cv::imread((path(kTestDataPath) / "starry_night.jpg").string());
   if (img.empty()) return absl::InternalError("No image");
   cv::namedWindow("Example 2-6-in", cv::WINDOW_AUTOSIZE);
   cv::namedWindow("Example 2-6-out", cv::WINDOW_AUTOSIZE);
@@ -123,8 +126,10 @@ absl::Status ShowPicturePyrDown() {
   cv::waitKey(0);
   return absl::OkStatus();
 }
+
 absl::Status ShowPictureCanny() {
-  cv::Mat img_rgb = cv::imread(path(kTestDataPath) / "HappyFish.jpg");
+  cv::Mat img_rgb =
+      cv::imread((path(kTestDataPath) / "HappyFish.jpg").string());
   if (img_rgb.empty()) return absl::InternalError("No image");
   cv::namedWindow("Example Gray", cv::WINDOW_AUTOSIZE);
   cv::namedWindow("Example Canny", cv::WINDOW_AUTOSIZE);
@@ -137,9 +142,10 @@ absl::Status ShowPictureCanny() {
   cv::waitKey(/*delay=*/0);
   return absl::OkStatus();
 }
+
 absl::Status ShowVideoCanny() {
   cv::VideoCapture capture;
-  const std::string file_path = path(kTestDataPath) / "Megamind.avi";
+  const std::string file_path = (path(kTestDataPath) / "Megamind.avi").string();
   capture.open(file_path);
   if (!capture.isOpened()) {
     return absl::InternalError(
@@ -188,4 +194,4 @@ absl::Status ShowVideoCanny() {
   capture.release();
   return absl::OkStatus();
 }
-}  // namespace hello::misc
+} // namespace hello::misc

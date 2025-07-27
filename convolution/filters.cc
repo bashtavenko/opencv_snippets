@@ -31,7 +31,7 @@ void sum_rgb(const cv::Mat& src, cv::Mat& dst) {
 }
 
 absl::Status SumThreeChannels() {
-  cv::Mat img = cv::imread(path(kTestDataPath) / "home.jpg");
+  cv::Mat img = cv::imread((path(kTestDataPath) / "home.jpg").string());
   if (img.empty()) return absl::InternalError("No image");
   cv::Mat dst;
   sum_rgb(img, dst);
@@ -47,7 +47,8 @@ absl::Status AdaptiveThreshold() {
   constexpr int block_size = 71;
   constexpr double offset = 15;
   cv::Mat img =
-      cv::imread(path(kTestDataPath) / "pic1.png", cv::IMREAD_GRAYSCALE);
+      cv::imread((path(kTestDataPath) / "pic1.png").string(),
+                 cv::IMREAD_GRAYSCALE);
   if (img.empty()) return absl::InternalError("No image");
 
   cv::Mat it;
@@ -61,5 +62,4 @@ absl::Status AdaptiveThreshold() {
   cv::waitKey(0);
   return absl::OkStatus();
 }
-
-}  // namespace hello::convolution
+} // namespace hello::convolution

@@ -13,9 +13,9 @@ buildifier(
     lint_mode = "fix",
 )
 
-# "-DWITH_FFMPEG=OFF" is for https://github.com/opencv/opencv/issues/22748
+# Hermetic build for linux and opencv
 cmake(
-    name = "opencv",
+    name = "opencv_cmake",
     cache_entries = select({
         "@platforms//os:linux": {
             "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
@@ -29,14 +29,6 @@ cmake(
             "WITH_GTK": "OFF",
             "WITH_QT": "OFF",
             "WITH_COCOA": "ON",
-        },
-        "@platforms//os:windows": {
-            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
-            "WITH_FFMPEG": "ON",
-            "OPENCV_GENERATE_PKGCONFIG": "OFF",
-            "CMAKE_DISABLE_FIND_PACKAGE_PkgConfig": "TRUE",
-            "WITH_GTK": "OFF",
-            "WITH_QT": "OFF",
         },
     }),
     lib_source = "@opencv//:all",
@@ -70,21 +62,59 @@ cmake(
             "libopencv_stitching.411.dylib",
             "libopencv_objdetect.411.dylib",
         ],
-        "@platforms//os:windows": [
-            "libopencv_ml.411.dll",
-            "libopencv_calib3d.411.dll",
-            "libopencv_core.411.dll",
-            "libopencv_flann.411.dll",
-            "libopencv_features2d.411.dll",
-            "libopencv_highgui.411.dll",
-            "libopencv_imgcodecs.411.dll",
-            "libopencv_imgproc.411.dll",
-            "libopencv_video.411.dll",
-            "libopencv_videoio.411.dll",
-            "libopencv_stitching.411.dll",
-            "libopencv_objdetect.411.dll",
-        ],
         "//conditions:default": [],
+    }),
+    visibility = ["//visibility:public"],
+        target_compatible_with = select({
+            "@platforms//os:windows": ["@platforms//:incompatible"],
+            "//conditions:default": [],
+        }),
+)
+
+# For Windows - use pre-built libraries
+cc_library(
+    name = "opencv_windows_release",
+    srcs = glob([
+        "third_party/opencv/release/x64/vc17/lib/*.lib",
+        "third_party/opencv/release/x64/vc17/bin/*.dll",
+    ], allow_empty = True),
+    hdrs = glob(["third_party/opencv/release/include/**/*"]),
+    includes = ["third_party/opencv/release/include"],
+    target_compatible_with = ["@platforms//os:windows"],
+)
+
+cc_library(
+    name = "opencv_windows_debug",
+    srcs = glob([
+        "third_party/opencv/debug/x64/vc17/lib/*.lib",
+        "third_party/opencv/debug/x64/vc17/bin/*.dll",
+    ], allow_empty = True),
+    hdrs = glob(["third_party/opencv/debug/include/**/*"]),
+    includes = ["third_party/opencv/debug/include"],
+    target_compatible_with = ["@platforms//os:windows"],
+)
+
+# Windows debug/release selection
+config_setting(
+    name = "debug_build",
+    values = {"compilation_mode": "dbg"},
+)
+
+cc_library(
+    name = "opencv_windows",
+    deps = select({
+        ":debug_build": [":opencv_windows_debug"],
+        "//conditions:default": [":opencv_windows_release"],
+    }),
+    target_compatible_with = ["@platforms//os:windows"],
+)
+
+# Main opencv target - platform selection
+cc_library(
+    name = "opencv",
+    deps = select({
+        "@platforms//os:windows": [":opencv_windows"],
+        "//conditions:default": [":opencv_cmake"],
     }),
     visibility = ["//visibility:public"],
 )
@@ -116,8 +146,8 @@ cc_binary(
         "//histograms",
         "//keypoints",
         "//misc",
-        "//ml:decision_trees",
-        "//ml:kmeans",
+#        "//ml:decision_trees",
+#        "//ml:kmeans",
         "//tracking",
         "//transformations",
         "@absl//absl/strings",

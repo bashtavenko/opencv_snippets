@@ -17,7 +17,7 @@ cv::Point MakePoint(const cv::Mat& img, const cv::Mat& mat) {
 
 absl::Status Kalman(absl::string_view file_name) {
   using std::filesystem::path;
-  std::string file_path = path(kTestDataPath) / file_name;
+  std::string file_path = (path(kTestDataPath) / file_name).string();
 
   cv::VideoCapture capture(file_path);
   if (!capture.isOpened())
