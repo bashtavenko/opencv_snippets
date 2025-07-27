@@ -16,5 +16,7 @@ build:windows --host_copt=/std:c++20
 build:windows --shell_executable=C:/msys64/usr/bin/bash.exe
 build:windows --action_env=BAZEL_LLVM="C:/Program Files/LLVM"
 
+build:windows --build --enable_runfiles
+
 # Auto-detect platform and apply config
 build:auto --enable_platform_specific_config
