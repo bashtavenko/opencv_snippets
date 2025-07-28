@@ -64,33 +64,45 @@ cmake(
         ],
         "//conditions:default": [],
     }),
+    target_compatible_with = select({
+        "@platforms//os:windows": ["@platforms//:incompatible"],
+        "//conditions:default": [],
+    }),
     visibility = ["//visibility:public"],
-        target_compatible_with = select({
-            "@platforms//os:windows": ["@platforms//:incompatible"],
-            "//conditions:default": [],
-        }),
 )
 
 # For Windows - use pre-built libraries
 # https://github.com/bazel-contrib/rules_foreign_cc/issues/1437
 cc_library(
     name = "opencv_windows_release",
-    srcs = glob([
-        "third_party/opencv/release/x64/vc17/lib/*.lib",
-        "third_party/opencv/release/x64/vc17/bin/*.dll",
-    ], allow_empty = True),
-    hdrs = glob(["third_party/opencv/release/include/**/*"]),
+    srcs = glob(
+        [
+            "third_party/opencv/release/x64/vc17/lib/*.lib",
+            "third_party/opencv/release/x64/vc17/bin/*.dll",
+        ],
+        allow_empty = True,
+    ),
+    hdrs = glob(
+        ["third_party/opencv/release/include/**/*"],
+        allow_empty = True,
+    ),
     includes = ["third_party/opencv/release/include"],
     target_compatible_with = ["@platforms//os:windows"],
 )
 
 cc_library(
     name = "opencv_windows_debug",
-    srcs = glob([
-        "third_party/opencv/debug/x64/vc17/lib/*.lib",
-        "third_party/opencv/debug/x64/vc17/bin/*.dll",
-    ], allow_empty = True),
-    hdrs = glob(["third_party/opencv/debug/include/**/*"]),
+    srcs = glob(
+        [
+            "third_party/opencv/debug/x64/vc17/lib/*.lib",
+            "third_party/opencv/debug/x64/vc17/bin/*.dll",
+        ],
+        allow_empty = True,
+    ),
+    hdrs = glob(
+        ["third_party/opencv/debug/include/**/*"],
+        allow_empty = True,
+    ),
     includes = ["third_party/opencv/debug/include"],
     target_compatible_with = ["@platforms//os:windows"],
 )
@@ -103,21 +115,21 @@ config_setting(
 
 cc_library(
     name = "opencv_windows",
+    target_compatible_with = ["@platforms//os:windows"],
     deps = select({
         ":debug_build": [":opencv_windows_debug"],
         "//conditions:default": [":opencv_windows_release"],
     }),
-    target_compatible_with = ["@platforms//os:windows"],
 )
 
 # Main opencv target - platform selection
 cc_library(
     name = "opencv",
+    visibility = ["//visibility:public"],
     deps = select({
         "@platforms//os:windows": [":opencv_windows"],
         "//conditions:default": [":opencv_cmake"],
     }),
-    visibility = ["//visibility:public"],
 )
 
 cc_test(
