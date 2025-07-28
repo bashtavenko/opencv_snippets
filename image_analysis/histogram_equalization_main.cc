@@ -32,7 +32,7 @@ absl::Status HistogramEqualization() {
     std::vector<int32_t> histogram(256, 0);
     for (int i = 0; i < img.rows; ++i) {
       for (int j = 0; j < img.cols; ++j) {
-        histogram[img.at<u_int8_t>(i, j)]++;
+        histogram[img.at<uint8_t>(i, j)]++;
       }
     }
     return histogram;
