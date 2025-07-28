@@ -41,15 +41,15 @@ cc_binary(
     ],
 )
 
-#cc_binary(
-#    name = "histogram_equalization",
-#    srcs = ["histogram_equalization_main.cc"],
-#    data = ["//testdata"],
-#    deps = [
-#        "//:opencv",
-#        "@absl//absl/flags:flag",
-#        "@absl//absl/flags:parse",
-#        "@absl//absl/status",
-#        "@glog",
-#    ],
-#)
+cc_binary(
+    name = "histogram_equalization",
+    srcs = ["histogram_equalization_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@glog",
+    ],
+)

@@ -1,4 +1,4 @@
-# OpenCV snippets and useful patterns
+# Bazel OpenCV snippets and useful patterns on Linux, Mac and Windows
 
 For Linux and Macos builds hermetic OpenCV. 
 
