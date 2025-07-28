@@ -2,8 +2,9 @@
 
 param(
     #  Standard windows setup has
-    # [string]$BuildDir = "$env:USERPROFILE\opencv_build",
-    [string]$OpenCVBuild = "c:\Users\SB\opencv_build",
+    # env::USERPROFILE cannot work in admin powershell
+    #[string]$BuildDir = "$env:USERPROFILE\opencv_build",
+    [string]$OpenCVBuild = "c:\Users\sbashtav\opencv_build",
     [string]$ThirdPartyDir = "third_party\opencv"
 )
 
