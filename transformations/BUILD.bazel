@@ -11,3 +11,18 @@ cc_library(
         "@glog",
     ],
 )
+
+cc_binary(
+    name = "homography_main",
+    srcs = ["homography_main.cc"],
+    data = ["//testdata"],
+    deps = [
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@absl//absl/strings",
+        "@gflags",
+        "@glog",
+    ],
+)
