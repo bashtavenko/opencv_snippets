@@ -55,6 +55,18 @@ absl::Status Run() {
   cv::warpPerspective(image, warped_image, homography_matrix,
                       cv::Size(output_width, output_height));
 
+  // Back-project a fixed point in the warp_image back to the original image.
+  // This is an inverse problem. It requires cv::perspectiveTransform.
+  const cv::Point2f image_point(10, 20);
+  std::vector<cv::Point2f> image_points = {image_point};
+  std::vector<cv::Point2f> object_points;
+  cv::perspectiveTransform(image_points, object_points,
+                           homography_matrix.inv());
+  cv::Point2f object_point = object_points[0];
+  LOG(INFO) << "Back-project " << image_point << " to " << object_point;
+  const cv::Scalar kRED(0, 0, 255);
+  cv::circle(warped_image, image_point, 3, kRED, cv::FILLED);
+
   cv::imshow(kOutput, warped_image);
 
   LOG(INFO) << "Press any key to exit";
