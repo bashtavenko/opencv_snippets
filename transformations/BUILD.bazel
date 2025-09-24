@@ -26,3 +26,67 @@ cc_binary(
         "@glog",
     ],
 )
+
+cc_library(
+    name = "calibration",
+    hdrs = ["calibration.h"],
+    deps = ["//:opencv"],
+)
+
+cc_library(
+    name = "proto_utils",
+    srcs = ["proto_utils.cc"],
+    hdrs = ["proto_utils.h"],
+    deps = [
+        ":calibration",
+        "//:opencv",
+        "//transformations/proto:calibration_data_cc",
+        "@absl//absl/log",
+        "@absl//absl/status:statusor",
+        "@absl//absl/strings",
+    ],
+)
+
+cc_test(
+    name = "proto_utils_test",
+    srcs = ["proto_utils_test.cc"],
+    data = ["//transformations/testdata"],
+    deps = [
+        ":proto_utils",
+        "@absl//absl/log",
+        "@absl//absl/status:status_matchers",
+        "@bazel_tools//tools/cpp/runfiles",
+        "@googletest//:gtest_main",
+        "@protobuf-matchers//protobuf-matchers",
+    ],
+)
+
+cc_library(
+    name = "birdeye",
+    srcs = ["birdeye.cc"],
+    hdrs = ["birdeye.h"],
+    deps = [
+        ":calibration",
+        "//:opencv",
+        "//transformations/proto:calibration_data_cc",
+        "@absl//absl/status",
+        "@glog",
+    ],
+)
+
+cc_binary(
+    name = "birdeye_main",
+    srcs = ["birdeye_main.cc"],
+    data = ["//transformations/testdata"],
+    deps = [
+        ":birdeye",
+        ":proto_utils",
+        "//:opencv",
+        "@absl//absl/flags:flag",
+        "@absl//absl/flags:parse",
+        "@absl//absl/status",
+        "@gflags",
+        "@glog",
+        "@status_macros",
+    ],
+)

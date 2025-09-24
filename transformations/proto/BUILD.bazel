@@ -1,0 +1,14 @@
+load("@protobuf//bazel:cc_proto_library.bzl", "cc_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+package(default_visibility = ["//visibility:public"])
+
+proto_library(
+    name = "calibration_data",
+    srcs = ["calibration_data.proto"],
+)
+
+cc_proto_library(
+    name = "calibration_data_cc",
+    deps = [":calibration_data"],
+)

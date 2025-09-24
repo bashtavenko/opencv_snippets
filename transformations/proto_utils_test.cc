@@ -1,11 +1,13 @@
-#include "project_points/proto_utils.h"
+#include "transformations/proto_utils.h"
 #include "absl/status/status_matchers.h"
+#include "transformations/proto/calibration_data.pb.h"
 #include "gmock/gmock-matchers.h"
 #include "gtest/gtest.h"
 #include "protobuf-matchers/protocol-buffer-matchers.h"
 #include "tools/cpp/runfiles/runfiles.h"
+#include "absl/log/log.h"
 
-namespace aruco {
+namespace opencv_snippets {
 namespace {
 
 using ::absl_testing::IsOk;
@@ -24,9 +26,9 @@ MATCHER_P2(CompareMat, a, b, "") {
 TEST(LoadFromTextProto, Works) {
   const Runfiles* files = Runfiles::CreateForTest();
   const std::string text_proto_file_path =
-      files->Rlocation("_main/testdata/pixel_6a_calibration.txtpb");
+      files->Rlocation("_main/transformations/testdata/pixel_6a_calibration.txtpb");
 
-  EXPECT_THAT(LoadFromTextProtoFile<aruco::proto::IntrinsicCalibration>(
+  EXPECT_THAT(LoadFromTextProtoFile<proto::IntrinsicCalibration>(
                   text_proto_file_path),
               IsOkAndHolds(EqualsProto(
                   R"pb(camera_matrix {
@@ -49,8 +51,8 @@ TEST(LoadFromTextProto, Works) {
 TEST(LoadFromTextProtoAndConvert, Works) {
   const Runfiles* files = Runfiles::CreateForTest();
   auto intrinsic_proto =
-      LoadFromTextProtoFile<aruco::proto::IntrinsicCalibration>(
-          files->Rlocation("_main/testdata/pixel_6a_calibration.txtpb"));
+      LoadFromTextProtoFile<proto::IntrinsicCalibration>(
+          files->Rlocation("_main/transformations/testdata/pixel_6a_calibration.txtpb"));
   ASSERT_THAT(intrinsic_proto, IsOk());
 
   const auto intrinsic =
@@ -64,46 +66,5 @@ TEST(LoadFromTextProtoAndConvert, Works) {
   EXPECT_THAT(0.1,
               CompareMat(intrinsic.distortion_params, want_distortion_params));
 }
-
-TEST(LoadFromTextManifestProto, Works) {
-  const Runfiles* files = Runfiles::CreateForTest();
-  const std::string text_proto_file_path =
-      files->Rlocation("_main/testdata/simple_manifest.txtpb");
-
-  // With Partially it at least validates the protobuf conversion from text
-  EXPECT_THAT(
-      LoadFromTextProtoFile<aruco::proto::Context>(text_proto_file_path),
-      IsOkAndHolds(Partially(EqualsProto(
-          R"pb(
-            points { x: 0 y: 0 z: 0 tag: "1" }
-            points { x: 320 y: 0 z: 0 tag: "2" }
-            points { x: 320 y: 250 z: 0 tag: "3" }
-            points { x: 0 y: 250 z: 0 tag: "4" }
-            dictionary: DICT_6X6_250
-          )pb"))));
-}
-
-TEST(ConvertContextFromProto, Works) {
-  const Runfiles* files = Runfiles::CreateForTest();
-  auto manifest = LoadFromTextProtoFile<aruco::proto::Context>(
-      files->Rlocation("_main/testdata/simple_manifest.txtpb"));
-  // TODO: Test ASSIGN_OR. Similar to ASSIGN_OR_RETURN in status macros
-  ASSERT_THAT(manifest, IsOk());
-
-    const Context want_context = {
-    .object_points = {
-      {cv::Point3f(0, 0, 0), "tl"},
-      {cv::Point3f(320, 0, 0), "tr"},
-      {cv::Point3f(320, 250, 0), "br",},
-        {cv::Point3f(0, 250, 0), "bl"}},
-    .item_points = {{1, cv::Point3f(110, 100, 0)}}
-  };
-
-   // TODO: Add struct inequality operator
-   auto result = ConvertContextFromProto(manifest.value());
-   EXPECT_THAT(result.object_points, testing::SizeIs(4));
-   EXPECT_THAT(result.item_points, testing::SizeIs(1));
-}
-
 }  // namespace
-}  // namespace aruco
+}  // namespace opencv_snippets

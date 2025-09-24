@@ -9,6 +9,7 @@ bazel_dep(name = "abseil-cpp", version = "20250512.1", repo_name = "absl")
 bazel_dep(name = "gflags", version = "2.2.2")
 bazel_dep(name = "glog", version = "0.7.1")
 bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "protobuf-matchers", version = "0.1.1")
 
 http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
@@ -34,7 +35,6 @@ http_archive(
     strip_prefix = "status_macros-1.0.1",
     urls = ["https://github.com/bashtavenko/status_macros/archive/refs/tags/v1.0.1.tar.gz"],
 )
-
 
 # Register C++ toolchains
 bazel_dep(name = "toolchains_llvm", version = "1.0.0")
