@@ -152,7 +152,6 @@ cc_binary(
         "//testdata",
     ],
     deps = [
-        "//calibration:birdeye",
         "//calibration:intrinsic",
         "//convolution:filters",
         "//fft",

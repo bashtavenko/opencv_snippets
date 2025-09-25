@@ -18,20 +18,6 @@ cc_library(
 )
 
 cc_library(
-    name = "birdeye",
-    srcs = ["birdeye.cc"],
-    hdrs = ["birdeye.h"],
-    deps = [
-        "//:opencv",
-        "//util",
-        "@absl//absl/algorithm:container",
-        "@absl//absl/status",
-        "@absl//absl/strings",
-        "@glog",
-    ],
-)
-
-cc_library(
     name = "calibration",
     srcs = ["calibration.cc"],
     hdrs = ["calibration.h"],

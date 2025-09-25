@@ -1,7 +1,6 @@
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 #include "absl/status/status.h"
-#include "calibration/birdeye.h"
 #include "calibration/intrinsic.h"
 #include "convolution/filters.h"
 #include "fft/fft.h"
