@@ -1,3 +1,5 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary", "cc_test")
+
 cc_binary(
     name = "noise_reduction_main",
     srcs = ["noise_reduction_main.cc"],

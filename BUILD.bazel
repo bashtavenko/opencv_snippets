@@ -1,6 +1,7 @@
 load("@buildifier_prebuilt//:rules.bzl", "buildifier")
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
 load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary", "cc_test")
 
 # bazel run //:buildifier
 # .. or warn
