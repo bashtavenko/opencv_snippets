@@ -1,6 +1,7 @@
 #include <glog/logging.h>
 #include "absl/strings/str_format.h"
-#include "ml.h"
+#include "absl/status/status.h"
+#include "opencv2/ml.hpp"
 #include "opencv2/opencv.hpp"
 
 // CLion does not handle symbols in any of the directories

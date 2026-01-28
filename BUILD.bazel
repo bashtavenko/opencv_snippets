@@ -1,7 +1,5 @@
 load("@buildifier_prebuilt//:rules.bzl", "buildifier")
-load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_test")
-load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary", "cc_test")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
 
 # bazel run //:buildifier
 # .. or warn
@@ -14,122 +12,69 @@ buildifier(
     lint_mode = "fix",
 )
 
-# Hermetic build for linux and opencv
-cmake(
-    name = "opencv_cmake",
-    cache_entries = select({
-        "@platforms//os:linux": {
-            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
-            "WITH_FFMPEG": "ON",
-            "WITH_GTK": "OFF",
-            "WITH_QT": "ON",
-        },
-        "@platforms//os:macos": {
-            "BUILD_LIST": "calib3d,core,features2d,highgui,imgcodecs,imgproc,objdetect,video,videoio,ml,stitching",
-            "WITH_FFMPEG": "ON",
-            "WITH_GTK": "OFF",
-            "WITH_QT": "OFF",
-            "WITH_COCOA": "ON",
-        },
-    }),
-    lib_source = "@opencv//:all",
-    out_include_dir = "include/opencv4",
-    out_shared_libs = select({
-        "@platforms//os:linux": [
-            "libopencv_ml.so.411",
-            "libopencv_calib3d.so.411",
-            "libopencv_core.so.411",
-            "libopencv_flann.so.411",
-            "libopencv_features2d.so.411",
-            "libopencv_highgui.so.411",
-            "libopencv_imgcodecs.so.411",
-            "libopencv_imgproc.so.411",
-            "libopencv_video.so.411",
-            "libopencv_videoio.so.411",
-            "libopencv_stitching.so.411",
-            "libopencv_objdetect.so.411",
-        ],
-        "@platforms//os:macos": [
-            "libopencv_ml.411.dylib",
-            "libopencv_calib3d.411.dylib",
-            "libopencv_core.411.dylib",
-            "libopencv_flann.411.dylib",
-            "libopencv_features2d.411.dylib",
-            "libopencv_highgui.411.dylib",
-            "libopencv_imgcodecs.411.dylib",
-            "libopencv_imgproc.411.dylib",
-            "libopencv_video.411.dylib",
-            "libopencv_videoio.411.dylib",
-            "libopencv_stitching.411.dylib",
-            "libopencv_objdetect.411.dylib",
-        ],
-        "//conditions:default": [],
-    }),
-    target_compatible_with = select({
-        "@platforms//os:windows": ["@platforms//:incompatible"],
-        "//conditions:default": [],
-    }),
-    visibility = ["//visibility:public"],
-)
-
-# For Windows - use pre-built libraries
-# https://github.com/bazel-contrib/rules_foreign_cc/issues/1437
 cc_library(
-    name = "opencv_windows_release",
-    srcs = glob(
-        [
-            "third_party/opencv/release/x64/vc17/lib/*.lib",
-            "third_party/opencv/release/x64/vc17/bin/*.dll",
-        ],
-        allow_empty = True,
-    ),
+    name = "opencv_release",
+    srcs = select({
+        "@platforms//os:linux": glob(
+            ["third_party/opencv/lib/*.so*"],
+            allow_empty = True,
+        ),
+        "@platforms//os:macos": glob(
+            ["third_party/opencv/lib/*.dylib"],
+            allow_empty = True,
+        ),
+        "@platforms//os:windows": glob(
+            [
+                "third_party/opencv/release/x64/vc17/lib/*.lib",
+                "third_party/opencv/release/x64/vc17/bin/*.dll",
+            ],
+            allow_empty = True,
+        ),
+    }),
     hdrs = glob(
-        ["third_party/opencv/release/include/**/*"],
+        ["third_party/opencv/include/**/*"],
         allow_empty = True,
     ),
-    includes = ["third_party/opencv/release/include"],
-    target_compatible_with = ["@platforms//os:windows"],
+    includes = ["third_party/opencv/include"],
 )
 
 cc_library(
-    name = "opencv_windows_debug",
-    srcs = glob(
-        [
-            "third_party/opencv/debug/x64/vc17/lib/*.lib",
-            "third_party/opencv/debug/x64/vc17/bin/*.dll",
-        ],
-        allow_empty = True,
-    ),
+    name = "opencv_debug",
+    srcs = select({
+        "@platforms//os:linux": glob(
+            ["third_party/opencv/lib_debug/*.so*"],
+            allow_empty = True,
+        ),
+        "@platforms//os:macos": glob(
+            ["third_party/opencv/lib_debug/*.dylib"],
+            allow_empty = True,
+        ),
+        "@platforms//os:windows": glob(
+            [
+                "third_party/opencv/debug/x64/vc17/lib/*.lib",
+                "third_party/opencv/debug/x64/vc17/bin/*.dll",
+            ],
+            allow_empty = True,
+        ),
+    }),
     hdrs = glob(
-        ["third_party/opencv/debug/include/**/*"],
+        ["third_party/opencv/include_debug/**/*"],
         allow_empty = True,
     ),
-    includes = ["third_party/opencv/debug/include"],
-    target_compatible_with = ["@platforms//os:windows"],
+    includes = ["third_party/opencv/include_debug"],
 )
 
-# Windows debug/release selection
 config_setting(
     name = "debug_build",
     values = {"compilation_mode": "dbg"},
 )
 
 cc_library(
-    name = "opencv_windows",
-    target_compatible_with = ["@platforms//os:windows"],
-    deps = select({
-        ":debug_build": [":opencv_windows_debug"],
-        "//conditions:default": [":opencv_windows_release"],
-    }),
-)
-
-# Main opencv target - platform selection
-cc_library(
     name = "opencv",
     visibility = ["//visibility:public"],
     deps = select({
-        "@platforms//os:windows": [":opencv_windows"],
-        "//conditions:default": [":opencv_cmake"],
+        ":debug_build": [":opencv_release"],
+        "//conditions:default": [":opencv_release"],
     }),
 )
 
