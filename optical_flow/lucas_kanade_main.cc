@@ -63,7 +63,7 @@ void DrawMotionSummary(cv::Mat& image, const std::vector<cv::Point2f>& prev_pts,
   float std_dx = sqrt(sum_sq_dx / dx_values.size());
   float std_dy = sqrt(sum_sq_dy / dy_values.size());
 
-  // Determine motion type
+  // Determine a motion type
   std::string motion_type;
   if (mean_magnitude < 1.0f) {
     // Very low motion magnitude (< 1.0 pixels)
@@ -73,17 +73,17 @@ void DrawMotionSummary(cv::Mat& image, const std::vector<cv::Point2f>& prev_pts,
     // (translation, rotation, or scaling)
     motion_type = "Rigid Body";
   } else {
-    // High variation in flow field, suggesting non-rigid or complex motion
+    // High variation in the flow field, suggesting non-rigid or complex motion
     motion_type = "Deformation";
   }
 
-  // Create semi-transparent overlay in top-left corner
+  // Create semi-transparent overlay in a top-left corner
   int text_height = 25;
   int text_margin = 10;
   int overlay_width = 320;
   int overlay_height = 8 * text_height + text_margin;
 
-  // Ensure overlay fits within image
+  // Ensure the overlay fits within the image
   overlay_width = std::min(overlay_width, image.cols - 20);
   overlay_height = std::min(overlay_height, image.rows - 20);
 

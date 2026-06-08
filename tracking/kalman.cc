@@ -24,7 +24,7 @@ absl::Status Kalman(absl::string_view file_name) {
     return absl::InternalError(absl::StrCat("No video - ", file_path));
 
   // Initialize, create Kalman filter object, window, random number
-  // generator etc.
+  // generator, etc.
   //
   cv::Mat img(500, 500, CV_8UC3);
   cv::KalmanFilter kalman(2, 1, 0);

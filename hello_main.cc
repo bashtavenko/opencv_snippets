@@ -6,6 +6,7 @@
 #include "fft/fft.h"
 #include "histograms/histograms.h"
 #include "keypoints/keypoints.h"
+#include "tracking/tracking.h"
 #include "misc/misc.h"
 #include "ml/ml.h"
 #include "tracking/tracking.h"
@@ -18,7 +19,7 @@ int main(int argc, char** argv) {
 
   // absl::Status status = hello::misc::ShowPicture();
   // absl::Status status = hello::misc::ShowVideo();
-   absl::Status status = hello::misc::ShowPictureCanny();
+   // absl::Status status = hello::misc::ShowPictureCanny();
 
   // absl::Status status = hello::misc::ShowVideoCanny();
   // absl::Status status = hello::convolution::AdaptiveThreshold();
@@ -37,7 +38,7 @@ int main(int argc, char** argv) {
   //  absl::Status status = hello::ml::RunDecisionTrees();
   //  absl::Status status = hello::tracking::Kalman("video.mp4");
    // absl::Status status = hello::tracking::Kalman("test.avi");
-  // absl::Status status = hello::kalman::Track("test.avi");
+  absl::Status status = hello::tracking::Kalman("test.avi");
   LOG(INFO) << status.message();
   return status.ok() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

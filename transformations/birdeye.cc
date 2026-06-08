@@ -18,7 +18,7 @@ absl::StatusOr<cv::Mat> ComputeHomographyMatrix(
   //               camera_matrix);
   cv::cvtColor(internal_image, gray_image, cv::COLOR_BGRA2GRAY);
 
-  // Find chessboard on the plane
+  // Find a chessboard on the plane
   constexpr int32_t kBoardWidth = 6;
   constexpr int32_t kBoardHeight = 9;
   constexpr int32_t board_n = kBoardWidth * kBoardHeight;

@@ -49,7 +49,8 @@ absl::Status Run() {
   double z = 15;
   while (key != 27) {
     // Why (2, 2)?
-    // Third row has perspective effect and (2, 2) is scaling factor for "depth"
+    // The third row has a perspective effect and (2, 2) is a scaling factor for
+    // "depth"
     homography.at<double>(2, 2) = z;
     // Remap the view
     cv::warpPerspective(internal_image, birds_image, homography,

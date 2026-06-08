@@ -1,6 +1,6 @@
 # Lucas-Kanade
 
-Originally was designed in dense optical flow, but can be used in sparse optical flow.
+Originally it was designed in a dense optical flow, but can be used in a sparse optical flow.
 
 ## Example
 ![frame_0](../testdata/optical_flow/frame_0.jpg)
