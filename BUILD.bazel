@@ -90,26 +90,3 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
-
-cc_binary(
-    name = "hello_main",
-    srcs = ["hello_main.cc"],
-    data = [
-        "//testdata",
-    ],
-    deps = [
-        "//calibration:intrinsic",
-        "//convolution:filters",
-        "//fft",
-        "//histograms",
-        "//keypoints",
-        "//misc",
-        "//ml:decision_trees",
-        "//ml:kmeans",
-        "//tracking",
-        "//transformations",
-        "@absl//absl/strings",
-        "@gflags",
-        "@glog",
-    ],
-)

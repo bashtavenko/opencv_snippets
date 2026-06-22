@@ -1,9 +1,7 @@
-#include <numeric>
 #include "absl/flags/flag.h"
 #include "absl/flags/parse.h"
 #include "absl/status/status.h"
 #include "absl/strings/str_cat.h"
-#include "gflags/gflags.h"
 #include "glog/logging.h"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/opencv.hpp"
@@ -73,6 +71,7 @@ absl::Status Run() {
   cv::waitKey(0);
   cv::destroyAllWindows();
   LOG(INFO) << "Done.";
+  return absl::OkStatus();
 }
 
 int main(int argc, char** argv) {

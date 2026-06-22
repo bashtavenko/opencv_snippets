@@ -6,8 +6,6 @@
 #include "tracking.h"
 
 namespace hello::tracking {
-constexpr absl::string_view kTestDataPath = "testdata";
-using std::filesystem::path;
 
 cv::Point MakePoint(const cv::Mat& img, const cv::Mat& mat) {
   return cv::Point(
@@ -15,11 +13,8 @@ cv::Point MakePoint(const cv::Mat& img, const cv::Mat& mat) {
       cvRound(img.rows / 2 - img.cols / 3 * sin(mat.at<float>(0))));
 }
 
-absl::Status Kalman(absl::string_view file_name) {
-  using std::filesystem::path;
-  std::string file_path = (path(kTestDataPath) / file_name).string();
-
-  cv::VideoCapture capture(file_path);
+absl::Status Kalman(absl::string_view file_path) {
+  cv::VideoCapture capture(file_path.data());
   if (!capture.isOpened())
     return absl::InternalError(absl::StrCat("No video - ", file_path));
 
@@ -36,7 +31,7 @@ absl::Status Kalman(absl::string_view file_name) {
   randn(x_k, 0.0, 0.1);
 
   // process noise
-  //
+  //x
   cv::Mat w_k(2, 1, CV_32F);
 
   // measurements, only one parameter for angle

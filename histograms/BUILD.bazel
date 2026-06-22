@@ -1,5 +1,6 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+
 package(default_visibility = ["//visibility:public"])
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary", "cc_test")
 
 cc_library(
     name = "histograms",
@@ -10,5 +11,18 @@ cc_library(
         "@absl//absl/status",
         "@absl//absl/strings",
         "@glog",
+    ],
+)
+
+cc_binary(
+    name = "main_cc",
+    srcs = ["main.cc"],
+    data = ["//testdata"],
+    deps = [
+        ":histograms",
+        "@absl//absl/flags:parse",
+        "@absl//absl/log",
+        "@absl//absl/log:check",
+        "@absl//absl/status",
     ],
 )

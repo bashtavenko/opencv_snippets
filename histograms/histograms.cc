@@ -9,11 +9,13 @@ using ::std::filesystem::path;
 
 constexpr absl::string_view kTestDataPath = "testdata";
 
-absl::Status Compute() {
-  cv::Mat src = cv::imread((path(kTestDataPath) / "lena.jpg").string());
-  if (src.empty()) return absl::InternalError("No image");
+absl::Status Compute(std::string_view image_path) {
+  cv::Mat src = cv::imread(image_path.data());
+  if (src.empty())
+    return (absl::InternalError(
+        absl::StrFormat("No image: %s ", image_path.data())));
 
-  // Compute the HSV image, and decompose it into separate planes.
+  // Compute the HSV image and decompose it into separate planes.
   //
   cv::Mat hsv;
   cv::cvtColor(src, hsv, cv::COLOR_BGR2HSV);
@@ -94,7 +96,7 @@ absl::Status Compare() {
     if (src[i].empty()) return absl::InternalError("No image");
   }
 
-  // Compute the HSV image, and decompose it into separate planes.
+  // Compute the HSV image and decompose it into separate planes.
   //
   std::vector<cv::Mat> hsv(5);
   std::vector<cv::Mat> hist(5);
@@ -163,7 +165,7 @@ absl::Status Compare() {
   //
   std::vector<cv::Mat> sig(5);
 
-  // Oi Vey, parse histograms to earth movers signatures
+  // Oi Vey, parse histograms to earthmovers signatures
   //
   for (i = 0; i < 5; ++i) {
     std::vector<cv::Vec3f> sigv;

@@ -5,7 +5,7 @@
 
 namespace hello::tracking {
 
-absl::Status Kalman(absl::string_view file_name);
+absl::Status Kalman(absl::string_view file_path);
 
 }  // namespace hello::tracking
 
