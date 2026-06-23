@@ -11,9 +11,9 @@ absl::Status FastConv() {
   cv::Mat A = cv::imread((path(kTestDataPath) / "pic3.png").string());
   if (A.empty()) return absl::InternalError("No image");
 
-  cv::Size patchSize(100, 100);
-  cv::Point topleft(A.cols / 2, A.rows / 2);
-  cv::Rect roi(topleft.x, topleft.y, patchSize.width, patchSize.height);
+  cv::Size patch_size(100, 100);
+  cv::Point top_left(A.cols / 2, A.rows / 2);
+  cv::Rect roi(top_left.x, top_left.y, patch_size.width, patch_size.height);
   cv::Mat B = A(roi);
 
   int dft_M = cv::getOptimalDFTSize(A.rows + B.rows - 1);
@@ -31,7 +31,7 @@ absl::Status FastConv() {
   cv::dft(dft_A, dft_A, 0, A.rows);
   cv::dft(dft_B, dft_B, 0, B.rows);
 
-  // set the last parameter to false to compute convolution instead of
+  // Set the last parameter to false in order to compute convolution instead of
   // correlation
   //
   cv::mulSpectrums(dft_A, dft_B, dft_A, 0, true);

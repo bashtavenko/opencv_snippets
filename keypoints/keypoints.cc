@@ -1,20 +1,13 @@
 #include "keypoints.h"
-#include <filesystem>
 #include <opencv2/calib3d.hpp>
-#include <opencv2/core/utility.hpp>
 #include <opencv2/features2d.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include "absl/algorithm/container.h"
 #include "absl/strings/str_cat.h"
-#include "absl/strings/str_format.h"
-#include "glog/logging.h"
 #include "util/status_macros.h"
 
 namespace hello::keypoints {
-using ::std::filesystem::path;
-
-constexpr absl::string_view kTestDataPath = "testdata";
 
 constexpr double kDistanceCoef = 4.0;
 constexpr int kMaxMatchingSize = 50;
@@ -99,13 +92,13 @@ inline void findKeyPointsHomography(std::vector<cv::KeyPoint>& kpts1,
 }
 
 absl::Status Run(DescriptorType descriptor_type, MatchAlgorithm match_algorithm,
-                 absl::string_view image_file_name,
-                 absl::string_view scene_file_name) {
-  cv::Mat img1 = cv::imread((path(kTestDataPath) / image_file_name).string());
+                 std::string_view image_file_name,
+                 std::string_view scene_file_name) {
+  cv::Mat img1 = cv::imread(image_file_name.data());
   if (img1.empty())
     return absl::InternalError(absl::StrCat("No image - ", image_file_name));
 
-  cv::Mat img2 = cv::imread((path(kTestDataPath) / scene_file_name).string());
+  cv::Mat img2 = cv::imread(scene_file_name.data());
   if (img2.empty())
     return absl::InternalError(absl::StrCat("No scene - ", scene_file_name));
 

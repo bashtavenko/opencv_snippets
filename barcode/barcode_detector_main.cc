@@ -11,7 +11,7 @@
 #include "opencv2/opencv.hpp"
 #include "status_macros.h"
 
-ABSL_FLAG(std::string, input_image_path, "barcode/testdata/linear_barcode.jpg",
+ABSL_FLAG(std::string, input_image_path, "barcode/testdata/linear.jpg",
           "Input image");
 
 cv::Mat Preprocess(const cv::Mat& input) {

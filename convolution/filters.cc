@@ -1,7 +1,6 @@
 #include "filters.h"
 #include <glog/stl_logging.h>
 #include <filesystem>
-#include "absl/strings/str_format.h"
 #include "opencv2/highgui.hpp"
 #include "opencv2/opencv.hpp"
 
